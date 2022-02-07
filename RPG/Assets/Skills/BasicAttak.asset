@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dccfeb0963fe45c1afe2e10bdf2c4bc1, type: 3}
-  m_Name: Health
+  m_Script: {fileID: 11500000, guid: 1c44c72f678b43108ecf8b315e4d14b5, type: 3}
+  m_Name: BasicAttak
   m_EditorClassIdentifier: 
-  displayableName: 
-  discription: 
+  displayableName: Melee attack;
+  description: Basic melee attack.
   icon: {fileID: 0}
+  resourceUsage: 0
+  staminaCost: 0
+  manaCost: 0
+  skillType: 0

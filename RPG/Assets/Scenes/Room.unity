@@ -15428,6 +15428,93 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3121457500058589027, guid: 5e985b63600cb3d479f27b1e3705f8dd, type: 3}
   m_PrefabInstance: {fileID: 1106256954}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1108521793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1108521798}
+  - component: {fileID: 1108521797}
+  - component: {fileID: 1108521796}
+  - component: {fileID: 1108521795}
+  - component: {fileID: 1108521794}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1108521794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108521793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130b4f93cd394a64859daf11c82dafb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills: []
+--- !u!114 &1108521795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108521793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033180f8c1522ba458e970061fbeacb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0
+  selectedTileHight: 0
+  selected: {fileID: 0}
+--- !u!114 &1108521796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108521793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e267c280530d844cbed78bf163e9ea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  durationOfJump: 2
+--- !u!114 &1108521797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108521793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c7298b45dc428d8869bba6bd1ee7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1108521798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108521793}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.223875, y: -2.7415261, z: 25.107334}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1134278230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23425,11 +23512,13 @@ GameObject:
   - component: {fileID: 1668021943}
   - component: {fileID: 1668021942}
   - component: {fileID: 1668021941}
-  - component: {fileID: 1668021940}
   - component: {fileID: 1668021947}
+  - component: {fileID: 1668021940}
   - component: {fileID: 1668021946}
   - component: {fileID: 1668021945}
   - component: {fileID: 1668021944}
+  - component: {fileID: 1668021949}
+  - component: {fileID: 1668021948}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -23520,7 +23609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 1
-  hightOfSelectionTile: 0.1
+  selectedTileHight: 0
   selected: {fileID: 0}
 --- !u!114 &1668021945
 MonoBehaviour:
@@ -23534,6 +23623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e267c280530d844cbed78bf163e9ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  durationOfJump: 2
 --- !u!114 &1668021946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23563,6 +23653,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementController: {fileID: 1668021945}
   selectionController: {fileID: 1668021944}
+  characterName: 
+--- !u!114 &1668021948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668021939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130b4f93cd394a64859daf11c82dafb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills: []
+--- !u!114 &1668021949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668021939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453e37e8713647eeb3e9be6eddd802f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPoints:
+    displayableName: 
+    description: 
+    icon: {fileID: 0}
+    value: 0
+    isRestorable: 0
+    maxValue: 0
+  manaPoints:
+    displayableName: 
+    description: 
+    icon: {fileID: 0}
+    value: 0
+    isRestorable: 0
+    maxValue: 0
+  armor:
+    displayableName: 
+    description: 
+    icon: {fileID: 0}
+    value: 0
+    isRestorable: 0
+    maxValue: 0
+  magicResist:
+    displayableName: 
+    description: 
+    icon: {fileID: 0}
+    value: 0
+    isRestorable: 0
+    maxValue: 0
 --- !u!1001 &1668747289
 PrefabInstance:
   m_ObjectHideFlags: 0

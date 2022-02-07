@@ -6,7 +6,7 @@ public class SelectionController : MonoBehaviour
 {
     [Header("MovementOfTileSettings")]
     [SerializeField] [PositiveValueOnly] private float duration;
-    [SerializeField] private float hightOfSelectionTile;
+    [SerializeField] private float selectedTileHight;
 
     [HideInInspector] public Transform selected;
     private Transform _hitTransform;
@@ -39,7 +39,7 @@ public class SelectionController : MonoBehaviour
 
     private void Select(Transform targetTransform)
     {
-        targetTransform.DOMoveY(hightOfSelectionTile, duration);
+        targetTransform.DOMoveY(selectedTileHight, duration);
         selected = targetTransform;
     }
 

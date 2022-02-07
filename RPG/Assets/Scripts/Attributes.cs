@@ -21,5 +21,6 @@ public struct CharacterAttribute
         [Multiline] public string description;
         public Image icon;
         public float value;
-        public float maxValue;
+        public bool isRestorable;
+        [ConditionalField(nameof(isRestorable))]public float maxValue;
 }

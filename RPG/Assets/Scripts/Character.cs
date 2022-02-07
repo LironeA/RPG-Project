@@ -6,6 +6,9 @@ public class Character : MonoBehaviour
     [HideInInspector] [AutoProperty] public MovementController movementController;
     [HideInInspector] [AutoProperty] public SelectionController selectionController;
 
+
+    public string characterName;
+
     public void SelectTile()
     {
         selectionController.SwitchSelection();
