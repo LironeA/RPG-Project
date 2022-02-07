@@ -2,5 +2,7 @@
 
 namespace MyBox.Internal
 {
-	public class MyBoxStartupAsset : ScriptableObject { }
+    public class MyBoxStartupAsset : ScriptableObject
+    {
+    }
 }

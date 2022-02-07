@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,13 +7,13 @@ using UnityEngine;
 
 namespace ToolExtensions
 {
-    [System.Serializable]
+    [Serializable]
     public class TriangleCount : UnityEngine.Object, ICondition
     {
         public int MinTriangles;
         public int MaxTriangles;
 
-        private string[] _options = new string[] { "Less than", "Greater than", "Between values" };
+        private string[] _options = new string[] {"Less than", "Greater than", "Between values"};
         private int _indexOptions;
         private int _GreaterThanValue;
         private int _lessThanValue;
@@ -33,39 +32,27 @@ namespace ToolExtensions
 
         public List<GameObject> Select()
         {
-            List<GameObject> gameObjectByFaces = new List<GameObject>();
-            MeshFilter[] allMeshfilters = UnityEngine.Object.FindObjectsOfType<MeshFilter>();
+            var gameObjectByFaces = new List<GameObject>();
+            var allMeshfilters = FindObjectsOfType<MeshFilter>();
 
 
             foreach (var meshfilter in allMeshfilters)
             {
-                int facesAmount = meshfilter.sharedMesh.triangles.Length / 3;
+                var facesAmount = meshfilter.sharedMesh.triangles.Length / 3;
 
                 if (_indexOptions == 0) // Less than
-                {
                     if (facesAmount <= _lessThanValue)
-                    {
                         gameObjectByFaces.Add(meshfilter.gameObject);
-                    }
-                }
 
                 if (_indexOptions == 1) // greater than
-                {
                     if (facesAmount >= _GreaterThanValue)
-                    {
                         gameObjectByFaces.Add(meshfilter.gameObject);
-                    }
-                }
 
                 if (_indexOptions == 2) // Between values
-                {
                     if (facesAmount >= MinTriangles && facesAmount <= MaxTriangles)
-                    {
                         gameObjectByFaces.Add(meshfilter.gameObject);
-                    }
-                }
-
             }
+
             return gameObjectByFaces;
         }
 
@@ -74,7 +61,7 @@ namespace ToolExtensions
             EditorGUILayout.BeginVertical(GUI.skin.box);
             EditorGUI.indentLevel++;
 
-            _indexOptions = EditorGUILayout.Popup("Triangle comparison",_indexOptions, _options);
+            _indexOptions = EditorGUILayout.Popup("Triangle comparison", _indexOptions, _options);
 
             EditorGUI.indentLevel++;
             switch (_indexOptions)
@@ -91,6 +78,7 @@ namespace ToolExtensions
                 default:
                     break;
             }
+
             EditorGUI.indentLevel--;
 
             EditorGUI.indentLevel--;
@@ -99,7 +87,6 @@ namespace ToolExtensions
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.EndVertical();
-
         }
 
         private void BewteenValues()

@@ -19,7 +19,7 @@ namespace MyBox.Internal
             get
             {
                 if (_directoryChecked) return _myBoxDirectory;
-                
+
                 var internalPath = MyEditor.GetScriptAssetPath(Instance);
                 var scriptDirectory = new DirectoryInfo(internalPath);
 

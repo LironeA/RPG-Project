@@ -1,4 +1,5 @@
 ﻿// Anthony Ackermans
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,12 @@ namespace ToolExtensions
 
         public List<GameObject> Select()
         {
-            List<GameObject> gameObjectByLayer = new List<GameObject>();
-            List<GameObject> allGameObjects = GameObject.FindObjectsOfType<GameObject>().ToList<GameObject>();
+            var gameObjectByLayer = new List<GameObject>();
+            var allGameObjects = FindObjectsOfType<GameObject>().ToList<GameObject>();
 
             foreach (var go in allGameObjects)
-            {
                 if (go.layer == _layerSearchField)
-                {
                     gameObjectByLayer.Add(go);
-                }
-            }
 
             return gameObjectByLayer;
         }
@@ -32,13 +29,13 @@ namespace ToolExtensions
         {
             EditorGUILayout.BeginVertical(GUI.skin.box);
 
-                EditorGUI.indentLevel++;
-                _layerSearchField = EditorGUILayout.LayerField("Select Layer", _layerSearchField);
-                EditorGUI.indentLevel--;
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.EndHorizontal();
-            
+            EditorGUI.indentLevel++;
+            _layerSearchField = EditorGUILayout.LayerField("Select Layer", _layerSearchField);
+            EditorGUI.indentLevel--;
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
             EditorGUILayout.EndVertical();
         }
 

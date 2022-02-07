@@ -1,4 +1,5 @@
 ﻿// Anthony Ackermans
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,12 @@ namespace ToolExtensions
 
         public List<GameObject> Select()
         {
-            List<GameObject> gameObjectsWithMaterial = new List<GameObject>();
-            List<MeshRenderer> allMeshRenderers = GameObject.FindObjectsOfType<MeshRenderer>().ToList<MeshRenderer>();
+            var gameObjectsWithMaterial = new List<GameObject>();
+            var allMeshRenderers = FindObjectsOfType<MeshRenderer>().ToList<MeshRenderer>();
 
             foreach (var mr in allMeshRenderers)
-            {
                 if (mr.sharedMaterial == _material)
-                {
                     gameObjectsWithMaterial.Add(mr.gameObject);
-                }
-            }
 
             return gameObjectsWithMaterial;
         }
@@ -33,13 +30,13 @@ namespace ToolExtensions
         {
             EditorGUILayout.BeginVertical(GUI.skin.box);
 
-                EditorGUI.indentLevel++;
-                _material = (Material)EditorGUILayout.ObjectField("Material", _material, typeof(Material), true);
-                EditorGUI.indentLevel--;
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.EndHorizontal();
-            
+            EditorGUI.indentLevel++;
+            _material = (Material) EditorGUILayout.ObjectField("Material", _material, typeof(Material), true);
+            EditorGUI.indentLevel--;
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
             EditorGUILayout.EndVertical();
         }
 

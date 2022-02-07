@@ -4,29 +4,16 @@ using UnityEngine;
 using MyBox;
 
 public class InputManager : MonoBehaviour
-{	
-	[HideInInspector][AutoProperty]
-	public Character character;
-	[SearchableEnum]
-	public KeyCode selectTile;
-	[SearchableEnum]
-	public KeyCode moveToTile;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+{
+    [HideInInspector] [AutoProperty] public Character character;
+    [SearchableEnum] public KeyCode selectTile;
+
+    [SearchableEnum] public KeyCode moveToTile;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-	    if(Input.GetKeyDown(selectTile))
-	    {
-	    	character.SelectTile();
-	    }
-	    if(Input.GetKeyDown(moveToTile))
-	    {
-	    	character.MoveToTile();
-	    }
+        if (Input.GetKeyDown(selectTile)) character.SelectTile();
+        if (Input.GetKeyDown(moveToTile)) character.MoveToTile();
     }
 }

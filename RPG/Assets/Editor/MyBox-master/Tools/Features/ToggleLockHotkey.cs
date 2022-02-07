@@ -13,32 +13,32 @@ using Object = UnityEngine.Object;
 
 namespace MyBox.Internal
 {
-	public static class ToggleLockHotkey
-	{
-		[MenuItem("Tools/MyBox/Toggle Lock &q")]
-		static void ToggleInspectorLock()
-		{
-			Type inspectorWindowType = Assembly.GetAssembly(typeof(Editor)).GetType("UnityEditor.InspectorWindow");
+    public static class ToggleLockHotkey
+    {
+        [MenuItem("Tools/MyBox/Toggle Lock &q")]
+        private static void ToggleInspectorLock()
+        {
+            var inspectorWindowType = Assembly.GetAssembly(typeof(Editor)).GetType("UnityEditor.InspectorWindow");
 
-			if (_inspectorWindow == null)
-			{
-				Object[] findObjectsOfTypeAll = Resources.FindObjectsOfTypeAll(inspectorWindowType);
-				_inspectorWindow = (EditorWindow) findObjectsOfTypeAll[0];
-			}
+            if (_inspectorWindow == null)
+            {
+                var findObjectsOfTypeAll = Resources.FindObjectsOfTypeAll(inspectorWindowType);
+                _inspectorWindow = (EditorWindow) findObjectsOfTypeAll[0];
+            }
 
-			if (_inspectorWindow != null && _inspectorWindow.GetType().Name == "InspectorWindow")
-			{
-				PropertyInfo isLockedPropertyInfo = inspectorWindowType.GetProperty("isLocked");
-				if (isLockedPropertyInfo == null) return;
+            if (_inspectorWindow != null && _inspectorWindow.GetType().Name == "InspectorWindow")
+            {
+                var isLockedPropertyInfo = inspectorWindowType.GetProperty("isLocked");
+                if (isLockedPropertyInfo == null) return;
 
-				bool value = (bool) isLockedPropertyInfo.GetValue(_inspectorWindow, null);
-				isLockedPropertyInfo.SetValue(_inspectorWindow, !value, null);
+                var value = (bool) isLockedPropertyInfo.GetValue(_inspectorWindow, null);
+                isLockedPropertyInfo.SetValue(_inspectorWindow, !value, null);
 
-				_inspectorWindow.Repaint();
-			}
-		}
+                _inspectorWindow.Repaint();
+            }
+        }
 
-		private static EditorWindow _inspectorWindow;
-	}
+        private static EditorWindow _inspectorWindow;
+    }
 }
 #endif

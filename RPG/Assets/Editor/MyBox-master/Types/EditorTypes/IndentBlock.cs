@@ -4,17 +4,17 @@ using System;
 
 namespace MyBox.EditorTools
 {
-	public class IndentBlock : IDisposable
-	{
-		public IndentBlock()
-		{
-			EditorGUI.indentLevel++;
-		}
+    public class IndentBlock : IDisposable
+    {
+        public IndentBlock()
+        {
+            EditorGUI.indentLevel++;
+        }
 
-		public void Dispose()
-		{
-			EditorGUI.indentLevel--;
-		}
-	}
+        public void Dispose()
+        {
+            EditorGUI.indentLevel--;
+        }
+    }
 }
 #endif

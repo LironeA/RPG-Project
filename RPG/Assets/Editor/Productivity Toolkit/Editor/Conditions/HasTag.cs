@@ -1,4 +1,5 @@
 ﻿// Anthony Ackermans
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +14,15 @@ namespace ToolExtensions
 
         public List<GameObject> Select()
         {
-            List<GameObject> gameObjectByTag = new List<GameObject>();
+            var gameObjectByTag = new List<GameObject>();
 
-            if (_TagSearchField == "Untagged") // FindGameObjectsWithTag seems to not work well with untagged gameobjects
+            if (_TagSearchField ==
+                "Untagged") // FindGameObjectsWithTag seems to not work well with untagged gameobjects
             {
-                var allGameObjects = GameObject.FindObjectsOfType<GameObject>();
+                var allGameObjects = FindObjectsOfType<GameObject>();
                 foreach (var go in allGameObjects)
-                {
                     if (go.tag == "Untagged")
-                    {
                         gameObjectByTag.Add(go);
-                    }
-                }
             }
             else
             {
@@ -32,21 +30,21 @@ namespace ToolExtensions
             }
 
             return gameObjectByTag;
-            }
+        }
 
-            public void ShowUI()
-            {
-                EditorGUILayout.BeginVertical(GUI.skin.box);
+        public void ShowUI()
+        {
+            EditorGUILayout.BeginVertical(GUI.skin.box);
 
-                EditorGUI.indentLevel++;
-                _TagSearchField = EditorGUILayout.TagField("Select tag", _TagSearchField);
-                EditorGUI.indentLevel--;
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.EndHorizontal();
+            EditorGUI.indentLevel++;
+            _TagSearchField = EditorGUILayout.TagField("Select tag", _TagSearchField);
+            EditorGUI.indentLevel--;
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
 
-                EditorGUILayout.EndVertical();
-            }
+            EditorGUILayout.EndVertical();
+        }
 
         public object GetValue()
         {
@@ -58,4 +56,4 @@ namespace ToolExtensions
             throw new System.NotImplementedException();
         }
     }
-    }
+}

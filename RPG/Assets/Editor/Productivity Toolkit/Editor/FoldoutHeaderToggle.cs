@@ -26,7 +26,7 @@ namespace ToolExtensions
         {
             EditorGUILayout.BeginHorizontal("box");
             // foldout
-            GUIStyle mystyle = EditorStyles.foldout;
+            var mystyle = EditorStyles.foldout;
             mystyle.fixedWidth = 20f;
             _unfolded = EditorGUILayout.Toggle(_unfolded, mystyle, GUILayout.MaxWidth(17f));
 
@@ -37,30 +37,21 @@ namespace ToolExtensions
             {
                 if (groupEnabled)
                 {
-                    if (FoldoutActiveChanged != null)
-                    {
-                        FoldoutActiveChanged(true);
-
-                    }
+                    if (FoldoutActiveChanged != null) FoldoutActiveChanged(true);
                 }
                 else
                 {
-                    if (FoldoutActiveChanged != null)
-                    {
-                        FoldoutActiveChanged(false);
-
-                    }
+                    if (FoldoutActiveChanged != null) FoldoutActiveChanged(false);
                 }
             }
+
             EditorGUILayout.EndHorizontal();
             if (_unfolded)
             {
-
                 EditorGUI.BeginDisabledGroup(!groupEnabled);
                 theCondition.ShowUI();
                 EditorGUI.EndDisabledGroup();
             }
         }
-
     }
 }

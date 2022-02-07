@@ -96,3 +96,4 @@ public struct UniqueTransformComponentData<T> where T : struct, IComponentData
 	public bool IsSet => Entities.Length > 0;
 }
 */
+

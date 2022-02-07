@@ -19,54 +19,56 @@ namespace MyBox.Internal
 
         static MyLogger()
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) => LogException(args.ExceptionObject as Exception);
-            Application.logMessageReceived += (condition, trace, type) => Log($"Console Log ({type}): {condition}{Environment.NewLine}{trace}");
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, args) => LogException(args.ExceptionObject as Exception);
+            Application.logMessageReceived += (condition, trace, type) =>
+                Log($"Console Log ({type}): {condition}{Environment.NewLine}{trace}");
         }
 
-        public static void InitializeSession(string version = null, string filename = "customLog.txt", string timeFormat = "MM-dd_HH-mm-ss")
+        public static void InitializeSession(string version = null, string filename = "customLog.txt",
+            string timeFormat = "MM-dd_HH-mm-ss")
         {
             Session = Guid.NewGuid().ToString();
             Version = version ?? string.Empty;
 
             LogFile = filename;
             TimeFormat = timeFormat;
-            
+
             Log("Initialized. " + version);
-        } 
-        
+        }
+
         public static void Log(string text, bool withStackTrace = false)
         {
             if (Application.isEditor) return;
             if (Disabled) return;
 
-            string path = Path.Combine(Application.dataPath, LogFile);
+            var path = Path.Combine(Application.dataPath, LogFile);
 
             if (text.Length > MaxMessageLength) text = text.Substring(0, MaxMessageLength) + "...<trimmed>";
             if (withStackTrace) text += Environment.NewLine + Environment.StackTrace;
             try
             {
                 if (!File.Exists(path))
-                {
-                    using (StreamWriter sw = File.CreateText(path))
+                    using (var sw = File.CreateText(path))
                     {
                         sw.WriteLine(GetCurrentTime() + " || Log created" + Environment.NewLine);
                         sw.WriteLine(GetCurrentTime() + ": " + text);
                     }
-                }
                 else
-                {
-                    using (StreamWriter sw = File.AppendText(path))
+                    using (var sw = File.AppendText(path))
                     {
                         sw.WriteLine(GetCurrentTime() + ": " + text);
                     }
-                }
             }
             catch (Exception ex)
             {
                 Debug.LogException(ex);
             }
-            
-            string GetCurrentTime() => DateTime.Now.ToString(TimeFormat);
+
+            string GetCurrentTime()
+            {
+                return DateTime.Now.ToString(TimeFormat);
+            }
         }
 
 

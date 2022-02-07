@@ -10,7 +10,9 @@ namespace MyBox.Internal
 {
     public static class MyBoxUtilities
     {
-        private static readonly string MyBoxPackageInfoURL = "https://raw.githubusercontent.com/Deadcows/MyBox/master/package.json";
+        private static readonly string MyBoxPackageInfoURL =
+            "https://raw.githubusercontent.com/Deadcows/MyBox/master/package.json";
+
         private static readonly string MyBoxPackageTag = "com.domybest.mybox";
 
 
@@ -18,7 +20,7 @@ namespace MyBox.Internal
         {
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (var client = new HttpClient())
                 {
                     var packageJson = await client.GetStringAsync(MyBoxPackageInfoURL);
 
@@ -70,10 +72,10 @@ namespace MyBox.Internal
 
             return matches[1].Value.Trim('"');
         }
-        
+
 
         #region Is Installed Via UPM
-        
+
         public static bool InstalledViaUPM
         {
             get
@@ -97,7 +99,7 @@ namespace MyBox.Internal
         private static bool _installedViaUPMChecked;
 
         #endregion
-        
+
 
         #region Package Json Path
 

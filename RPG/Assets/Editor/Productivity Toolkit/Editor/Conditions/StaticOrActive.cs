@@ -1,4 +1,5 @@
 ﻿// Anthony Ackermans
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,18 +14,24 @@ namespace ToolExtensions
         private bool _isStatic;
         private bool _isActive;
         private bool _isPrefab;
-        private string[] _objectTypes = new string[] { "All", "3D Mesh", "Light", "Terrain", "Camera", "AudioSource", "Particle System", "Empty", "Empty and no children", "Reflection Probe", "Windzone" };
+
+        private string[] _objectTypes = new string[]
+        {
+            "All", "3D Mesh", "Light", "Terrain", "Camera", "AudioSource", "Particle System", "Empty",
+            "Empty and no children", "Reflection Probe", "Windzone"
+        };
+
         public List<GameObject> Select()
         {
-            List<GameObject> filteredGameObjects = new List<GameObject>();
-            GameObject[] allGameObjects = UtilitiesToolExtensions.GetAllGameObjects();
+            var filteredGameObjects = new List<GameObject>();
+            var allGameObjects = UtilitiesToolExtensions.GetAllGameObjects();
 
 
             foreach (var go in allGameObjects)
             {
                 if (_isPrefab)
                 {
-                    PrefabAssetType assetType = PrefabUtility.GetPrefabAssetType(go);
+                    var assetType = PrefabUtility.GetPrefabAssetType(go);
                     if (assetType == PrefabAssetType.Regular)
                     {
                         filteredGameObjects.Add(go);
@@ -33,29 +40,23 @@ namespace ToolExtensions
                 }
 
                 if (_isStatic)
-                {
                     if (go.isStatic == true)
                     {
                         filteredGameObjects.Add(go);
                         continue;
                     }
 
-                }
-
                 if (_isActive)
-                {
                     if (go.activeInHierarchy == true)
                     {
                         filteredGameObjects.Add(go);
-                        
+
                         continue;
                     }
 
-                }
-
-                    switch (_objecttypesIndex)
-                    {
-                        case 0: 
+                switch (_objecttypesIndex)
+                {
+                    case 0:
                         break;
                     case 1:
                         CheckTypeAndAddToList<MeshRenderer>(go, filteredGameObjects);
@@ -73,19 +74,13 @@ namespace ToolExtensions
                         CheckTypeAndAddToList<AudioSource>(go, filteredGameObjects);
                         break;
                     case 6:
-                        CheckTypeAndAddToList<ParticleSystem>(go, filteredGameObjects);                        
+                        CheckTypeAndAddToList<ParticleSystem>(go, filteredGameObjects);
                         break;
                     case 7:
-                        if (CheckEmptyGameObject(go))
-                        {
-                            filteredGameObjects.Add(go);
-                        }
+                        if (CheckEmptyGameObject(go)) filteredGameObjects.Add(go);
                         break;
                     case 8:
-                        if (CheckEmptyGameObject(go) && go.transform.childCount == 0)
-                        {
-                            filteredGameObjects.Add(go);
-                        }
+                        if (CheckEmptyGameObject(go) && go.transform.childCount == 0) filteredGameObjects.Add(go);
                         break;
                     case 9:
                         CheckTypeAndAddToList<ReflectionProbe>(go, filteredGameObjects);
@@ -94,11 +89,10 @@ namespace ToolExtensions
                         CheckTypeAndAddToList<WindZone>(go, filteredGameObjects);
                         break;
                     default:
-                            break;
-                    }
-                
-
+                        break;
+                }
             }
+
             return filteredGameObjects;
         }
 
@@ -106,20 +100,14 @@ namespace ToolExtensions
         {
             var components = go.GetComponents<Component>();
             if (components.Length <= 1)
-            {
                 return true;
-            }
             else return false;
         }
 
-        private void CheckTypeAndAddToList<T> (GameObject go, List<GameObject> theList)
+        private void CheckTypeAndAddToList<T>(GameObject go, List<GameObject> theList)
         {
-            if (go.GetComponent(typeof(T)) != null)
-            {
-                theList.Add(go);
-            }
+            if (go.GetComponent(typeof(T)) != null) theList.Add(go);
         }
-
 
 
         public void ShowUI()

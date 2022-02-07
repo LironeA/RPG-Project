@@ -2,14 +2,14 @@ using System;
 
 namespace MyBox
 {
-	[AttributeUsage(AttributeTargets.Class)]
-	public class RequireTagAttribute : Attribute
-	{
-		public string Tag;
+    [AttributeUsage(AttributeTargets.Class)]
+    public class RequireTagAttribute : Attribute
+    {
+        public string Tag;
 
-		public RequireTagAttribute(string tag)
-		{
-			Tag = tag;
-		}
-	}
+        public RequireTagAttribute(string tag)
+        {
+            Tag = tag;
+        }
+    }
 }

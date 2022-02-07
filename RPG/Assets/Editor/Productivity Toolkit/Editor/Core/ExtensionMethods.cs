@@ -12,7 +12,8 @@ public static class ExtensionMethods
     /// <returns></returns>
     public static Vector3 Divide(this Vector3 sourceVector, Vector3 dividingVector)
     {
-        Vector3 result = new Vector3(sourceVector.x / dividingVector.x, sourceVector.y / dividingVector.y, sourceVector.z / dividingVector.z);
+        var result = new Vector3(sourceVector.x / dividingVector.x, sourceVector.y / dividingVector.y,
+            sourceVector.z / dividingVector.z);
         return result;
     }
 }

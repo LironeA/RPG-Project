@@ -1,11 +1,11 @@
 ﻿// Anthony Ackermans
+
 using UnityEngine;
 
 namespace ToolExtensions
 {
     public class TransformElement
     {
-
         public GameObject TheGameObject;
         public Vector3 originalPosition;
         public Quaternion originalRotation;
@@ -18,7 +18,5 @@ namespace ToolExtensions
             originalRotation = tr.localRotation;
             originalScale = tr.localScale;
         }
-
-
     }
 }

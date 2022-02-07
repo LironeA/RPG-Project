@@ -4,14 +4,17 @@ using UnityEditor;
 
 namespace MyBox.EditorTools
 {
-	[Serializable]
-	public class EditorPrefsType
-	{
-		public string Key { get; protected set; }
-		
-		public bool IsSet => EditorPrefs.HasKey(Key);
+    [Serializable]
+    public class EditorPrefsType
+    {
+        public string Key { get; protected set; }
 
-		public void Delete() => EditorPrefs.DeleteKey(Key);
-	}
+        public bool IsSet => EditorPrefs.HasKey(Key);
+
+        public void Delete()
+        {
+            EditorPrefs.DeleteKey(Key);
+        }
+    }
 }
 #endif

@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace ToolExtensions
 {
-
     /// <summary>
     /// Find and rename objects in the scene
     /// </summary>
@@ -33,7 +32,7 @@ namespace ToolExtensions
         [MenuItem("Tools/Productivity Toolkit/Batch Renamer")]
         public static void ShowWindow()
         {
-            Renamer window = (Renamer)GetWindow(typeof(Renamer));
+            var window = (Renamer) GetWindow(typeof(Renamer));
             window.titleContent = new GUIContent("Batch Renamer");
             window.Show();
         }
@@ -86,14 +85,8 @@ namespace ToolExtensions
             EditorGUILayout.EndToggleGroup();
 
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Reset Values"))
-            {
-                ResetValues();
-            }
-            if (GUILayout.Button("Apply"))
-            {
-                RenameObjects();
-            }
+            if (GUILayout.Button("Reset Values")) ResetValues();
+            if (GUILayout.Button("Apply")) RenameObjects();
         }
 
         private void ResetValues()
@@ -111,47 +104,33 @@ namespace ToolExtensions
             _numbered = false;
             _baseNumber = 1;
             _step = 1;
-
         }
 
         private void RenameObjects()
         {
-
-            int indexNumber = 0;
+            var indexNumber = 0;
             foreach (var te in _transformelements)
             {
+                var newName = _removefirstdigits || _removeLastdigits ? "" : te.TheGameObject.name;
 
-                string newName = _removefirstdigits || _removeLastdigits ? "" : te.TheGameObject.name;
+                if (_baseName) newName = _baseNameString;
 
-                if (_baseName)
-                {
-                    newName = _baseNameString;
-                }
+                if (_prefix) newName = string.Concat(_prefixString, newName);
 
-                if (_prefix)
-                {
-                    newName = string.Concat(_prefixString, newName);
-                }
-
-                string newName2 = "";
-                if (_removefirstdigits)
-                {
-                    newName2 = te.TheGameObject.name.Substring(_removefirstdigitsAmount);
-                }
+                var newName2 = "";
+                if (_removefirstdigits) newName2 = te.TheGameObject.name.Substring(_removefirstdigitsAmount);
 
                 if (_removeLastdigits)
-                {
                     newName2 = te.TheGameObject.name.Remove(te.TheGameObject.name.Length - _removeLastdigitsAmount);
-                }
 
-                if (_suffix)
-                {
-                    newName2 = string.Concat(newName2, _suffixString);
-                }
+                if (_suffix) newName2 = string.Concat(newName2, _suffixString);
 
                 if (_numbered)
                 {
-                    string format = _transformelements.Count <= 1000 ? "{0:00}" : "{0:000}"; // Format with leading zeros depending on the amount of selected objects
+                    var format =
+                        _transformelements.Count <= 1000
+                            ? "{0:00}"
+                            : "{0:000}"; // Format with leading zeros depending on the amount of selected objects
 
                     newName2 = string.Concat(newName2, "_", string.Format(format, _baseNumber + indexNumber));
 
@@ -159,7 +138,6 @@ namespace ToolExtensions
                 }
 
                 te.TheGameObject.name = string.Concat(newName, newName2);
-
             }
         }
     }

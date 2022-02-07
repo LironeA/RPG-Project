@@ -3,17 +3,18 @@ namespace MyBox.Internal
 {
     using UnityEditor;
     using UnityEngine;
-    
-    [CustomEditor(typeof(Object), true), CanEditMultipleObjects]
+
+    [CustomEditor(typeof(Object), true)]
+    [CanEditMultipleObjects]
     public class UnityObjectEditor : Editor
     {
         private FoldoutAttributeHandler _foldout;
-        private ButtonMethodHandler _buttonMethod; 
-        
+        private ButtonMethodHandler _buttonMethod;
+
         private void OnEnable()
         {
             if (target == null) return;
-            
+
             _foldout = new FoldoutAttributeHandler(target, serializedObject);
             _buttonMethod = new ButtonMethodHandler(target);
         }
@@ -26,7 +27,7 @@ namespace MyBox.Internal
         public override void OnInspectorGUI()
         {
             _buttonMethod?.OnBeforeInspectorGUI();
-            
+
             if (_foldout != null)
             {
                 _foldout.Update();

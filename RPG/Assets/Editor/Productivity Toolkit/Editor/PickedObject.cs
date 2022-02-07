@@ -1,4 +1,5 @@
 ﻿//Anthony Ackermans
+
 using UnityEditor;
 using UnityEngine;
 
@@ -14,11 +15,11 @@ namespace ToolExtensions
 
         public PickedObject(GameObject gameObject)
         {
-            this.TheGameObject = gameObject;
-            this.OriginalPosition = TheGameObject.GetComponent<Transform>().position;
-            this.OriginalRotation = TheGameObject.GetComponent<Transform>().rotation;
-            this.OriginalScale = TheGameObject.GetComponent<Transform>().localScale;
-            this.AssetType = PrefabUtility.GetPrefabAssetType(gameObject);
+            TheGameObject = gameObject;
+            OriginalPosition = TheGameObject.GetComponent<Transform>().position;
+            OriginalRotation = TheGameObject.GetComponent<Transform>().rotation;
+            OriginalScale = TheGameObject.GetComponent<Transform>().localScale;
+            AssetType = PrefabUtility.GetPrefabAssetType(gameObject);
         }
     }
 }

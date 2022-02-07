@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace ToolExtensions
 {
-
     /// <summary>
     /// Find and rename objects in the scene
     /// </summary>
@@ -19,39 +18,37 @@ namespace ToolExtensions
         private Vector3 _rotationTransformation;
         private Vector3 _ScaleTransformation;
         private bool _uniformScale;
-        private string[] _dimension = new string[] { "1D", "2D", "3D" };
-        private string[] _space = new string[] { "Local", "Global" };
+        private string[] _dimension = new string[] {"1D", "2D", "3D"};
+        private string[] _space = new string[] {"Local", "Global"};
         private int _dimensionIndex;
         private int _spaceIndex;
-        private string[] _incrementalTotal = new string[] { "Incremental", "Total" };
+        private string[] _incrementalTotal = new string[] {"Incremental", "Total"};
         private int _incrementalTotalMoveIndex;
         private int _incrementalTotalrotateIndex;
         private int _incrementalTotalScaleIndex;
         private Material _previewMaterial;
         private List<GameObject> _allPreviewObjects = new List<GameObject>();
         private PrefabAssetType assetType;
-        bool _isInstanciated = false;
-        int _instancesAmount = 0;
+        private bool _isInstanciated = false;
+        private int _instancesAmount = 0;
 
         private int _oneDimensionCount;
 
         public int OneDimensionCount
         {
-            get { return _oneDimensionCount; }
-            set
-            {
-                _oneDimensionCount = Mathf.Max(1, value);
-            }
+            get => _oneDimensionCount;
+            set => _oneDimensionCount = Mathf.Max(1, value);
         }
 
 
         private Vector2Int _twoDimensionCount;
+
         public Vector2Int TwoDimensionCount
         {
-            get { return _twoDimensionCount; }
+            get => _twoDimensionCount;
             set
             {
-                Vector2Int clampedValue = new Vector2Int(Mathf.Max(1, value.x), Mathf.Max(1, value.y));
+                var clampedValue = new Vector2Int(Mathf.Max(1, value.x), Mathf.Max(1, value.y));
                 _twoDimensionCount = clampedValue;
             }
         }
@@ -61,12 +58,13 @@ namespace ToolExtensions
         private Vector3 _incrementalRowOffset3D;
 
         private Vector3Int _threeDimensionCount;
+
         public Vector3Int ThreeDimensionCount
         {
-            get { return _threeDimensionCount; }
+            get => _threeDimensionCount;
             set
             {
-                Vector3Int clampedValue = new Vector3Int(Mathf.Max(1, value.x), Mathf.Max(1, value.y), Mathf.Max(1, value.z));
+                var clampedValue = new Vector3Int(Mathf.Max(1, value.x), Mathf.Max(1, value.y), Mathf.Max(1, value.z));
                 _threeDimensionCount = clampedValue;
             }
         }
@@ -83,7 +81,7 @@ namespace ToolExtensions
         [MenuItem("Tools/Productivity Toolkit/Array Creator")]
         public static void ShowWindow()
         {
-            ArrayCreator window = (ArrayCreator)GetWindow(typeof(ArrayCreator));
+            var window = (ArrayCreator) GetWindow(typeof(ArrayCreator));
             window.titleContent = new GUIContent("Array Creator");
             window.Show();
         }
@@ -99,16 +97,9 @@ namespace ToolExtensions
         {
             EditorGUILayout.BeginVertical("helpbox");
             EditorGUILayout.LabelField("Array Object", EditorStyles.boldLabel);
-            _objectToArray = (GameObject)EditorGUILayout.ObjectField(_objectToArray, typeof(GameObject), true);
-            if (GUILayout.Button("Add selected"))
-            {
-                _objectToArray = (GameObject)Selection.activeObject;
-            }
-            if (_objectToArray != null)
-            {
-                assetType = PrefabUtility.GetPrefabAssetType(_objectToArray);
-            }
-
+            _objectToArray = (GameObject) EditorGUILayout.ObjectField(_objectToArray, typeof(GameObject), true);
+            if (GUILayout.Button("Add selected")) _objectToArray = (GameObject) Selection.activeObject;
+            if (_objectToArray != null) assetType = PrefabUtility.GetPrefabAssetType(_objectToArray);
 
 
             EditorGUILayout.EndVertical();
@@ -131,8 +122,8 @@ namespace ToolExtensions
             else
             {
                 _ScaleTransformation = EditorGUILayout.Vector3Field("Scale:", _ScaleTransformation);
-
             }
+
             _uniformScale = EditorGUILayout.ToggleLeft("Uniform", _uniformScale);
             _incrementalTotalScaleIndex = EditorGUILayout.Popup(_incrementalTotalScaleIndex, _incrementalTotal);
 
@@ -152,15 +143,18 @@ namespace ToolExtensions
                     break;
                 case 1:
                     TwoDimensionCount = EditorGUILayout.Vector2IntField("2D Count:", TwoDimensionCount);
-                    _incrementalRowOffset2D = EditorGUILayout.Vector3Field("Incremental Row Offset", _incrementalRowOffset2D);
+                    _incrementalRowOffset2D =
+                        EditorGUILayout.Vector3Field("Incremental Row Offset", _incrementalRowOffset2D);
                     break;
                 case 2:
                     ThreeDimensionCount = EditorGUILayout.Vector3IntField("3D Count:", ThreeDimensionCount);
-                    _incrementalRowOffset3D = EditorGUILayout.Vector3Field("Incremental Row Offset", _incrementalRowOffset3D);
+                    _incrementalRowOffset3D =
+                        EditorGUILayout.Vector3Field("Incremental Row Offset", _incrementalRowOffset3D);
                     break;
                 default:
                     break;
             }
+
             EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();
             // ----------------------------------- //
@@ -170,9 +164,18 @@ namespace ToolExtensions
             EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             _spaceIndex = EditorGUILayout.Popup("Transform Space", _spaceIndex, _space);
-            _avoidChildren = EditorGUILayout.Toggle(new GUIContent("Don't include children", "Avoid all children from the object to be instantiated. For prefabs, this function will be ignored as it is not possible to destroy prefab's children"), _avoidChildren);
-            _instantiateAsChildren = (Transform)EditorGUILayout.ObjectField(new GUIContent("Instantiate as child of", "Every instance will become a child of the selected object"), _instantiateAsChildren, typeof(Transform), true);
-            _keepAsPrefab = EditorGUILayout.Toggle(new GUIContent("Keep as prefab", "If the object to be instanciated is a prefab, keep every copy as an instance of that prefab"), _keepAsPrefab);
+            _avoidChildren = EditorGUILayout.Toggle(
+                new GUIContent("Don't include children",
+                    "Avoid all children from the object to be instantiated. For prefabs, this function will be ignored as it is not possible to destroy prefab's children"),
+                _avoidChildren);
+            _instantiateAsChildren = (Transform) EditorGUILayout.ObjectField(
+                new GUIContent("Instantiate as child of", "Every instance will become a child of the selected object"),
+                _instantiateAsChildren, typeof(Transform), true);
+            _keepAsPrefab =
+                EditorGUILayout.Toggle(
+                    new GUIContent("Keep as prefab",
+                        "If the object to be instanciated is a prefab, keep every copy as an instance of that prefab"),
+                    _keepAsPrefab);
             EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();
             // ----------------------------------- //
@@ -181,7 +184,6 @@ namespace ToolExtensions
             EditorGUILayout.LabelField($"Total instances in array: {_instancesAmount}");
 
             EditorGUILayout.EndVertical();
-
 
 
             GUILayout.FlexibleSpace();
@@ -199,10 +201,7 @@ namespace ToolExtensions
             }
 
 
-            if (GUILayout.Button("Reset Values"))
-            {
-                ResetValues();
-            }
+            if (GUILayout.Button("Reset Values")) ResetValues();
             if (GUILayout.Button("Create array"))
             {
                 CreateArray();
@@ -258,30 +257,19 @@ namespace ToolExtensions
             if (_objectToArray != null)
             {
                 if (_dimensionIndex == 0) // 1D array
-                {
                     OneDeeArray(true);
-                }
 
                 if (_dimensionIndex == 1) // 2D array
-                {
                     TwoDeeArray(true);
-                }
 
                 if (_dimensionIndex == 2) // 3D array
-                {
                     ThreeDeeArray(true);
-                }
             }
-
-
         }
 
         private void RemovePreviewArray()
         {
-            foreach (var go in _allPreviewObjects.ToArray())
-            {
-                DestroyImmediate(go);
-            }
+            foreach (var go in _allPreviewObjects.ToArray()) DestroyImmediate(go);
             _allPreviewObjects.Clear();
             _isInstanciated = false;
             _instancesAmount = 0;
@@ -296,10 +284,7 @@ namespace ToolExtensions
         {
             instantiatedObject.hideFlags = HideFlags.HideInHierarchy;
             var allMeshRenderers = instantiatedObject.GetComponentsInChildren<MeshRenderer>();
-            foreach (var mr in allMeshRenderers)
-            {
-                mr.material = _previewMaterial;
-            }
+            foreach (var mr in allMeshRenderers) mr.material = _previewMaterial;
             _allPreviewObjects.Add(instantiatedObject);
         }
 
@@ -308,56 +293,57 @@ namespace ToolExtensions
             GameObject instantiatedObject;
             if (assetType == PrefabAssetType.NotAPrefab || !_keepAsPrefab)
             {
-                instantiatedObject = _instantiateAsChildren ? Instantiate(_objectToArray, _instantiateAsChildren) : Instantiate(_objectToArray);
+                instantiatedObject = _instantiateAsChildren
+                    ? Instantiate(_objectToArray, _instantiateAsChildren)
+                    : Instantiate(_objectToArray);
             }
             else
             {
                 var _objectToArrayPrefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(_objectToArray);
-                GameObject _objecttoArrayPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(_objectToArrayPrefabPath, typeof(GameObject));
-                instantiatedObject = _instantiateAsChildren ? (GameObject)PrefabUtility.InstantiatePrefab(_objecttoArrayPrefab, _instantiateAsChildren) : (GameObject)PrefabUtility.InstantiatePrefab(_objecttoArrayPrefab);
+                var _objecttoArrayPrefab =
+                    (GameObject) AssetDatabase.LoadAssetAtPath(_objectToArrayPrefabPath, typeof(GameObject));
+                instantiatedObject = _instantiateAsChildren
+                    ? (GameObject) PrefabUtility.InstantiatePrefab(_objecttoArrayPrefab, _instantiateAsChildren)
+                    : (GameObject) PrefabUtility.InstantiatePrefab(_objecttoArrayPrefab);
             }
 
             if (_avoidChildren && assetType == PrefabAssetType.NotAPrefab)
-            {
                 foreach (Transform child in instantiatedObject.transform)
-                {
                     DestroyImmediate(child.gameObject);
-                }
-            }
             return instantiatedObject;
         }
 
         private void GenerateRow(float count, Vector3 rowOffset, bool isPreview, bool ignoreFirstInstance)
         {
-            for (int i = 1; i < count; i++)
+            for (var i = 1; i < count; i++)
             {
-                GameObject instantiatedObject = ObjectInstantiate();
+                var instantiatedObject = ObjectInstantiate();
                 instantiatedObject.name = _objectToArray.name + "_" + string.Format("{0:00}", i);
 
-                instantiatedObject.transform.localRotation = _incrementalTotalrotateIndex == 0 ? Quaternion.Euler(_rotationTransformation * i + _objectToArray.transform.localRotation.eulerAngles) : Quaternion.Euler((_rotationTransformation / _oneDimensionCount) * i + _objectToArray.transform.localRotation.eulerAngles);
+                instantiatedObject.transform.localRotation = _incrementalTotalrotateIndex == 0
+                    ? Quaternion.Euler(_rotationTransformation * i + _objectToArray.transform.localRotation.eulerAngles)
+                    : Quaternion.Euler(_rotationTransformation / _oneDimensionCount * i +
+                                       _objectToArray.transform.localRotation.eulerAngles);
                 instantiatedObject.transform.position = _objectToArray.transform.position;
-                instantiatedObject.transform.Translate(_incrementalTotalMoveIndex == 0 ? rowOffset + _moveTransformation * i : rowOffset + (_moveTransformation / _oneDimensionCount) * i, _spaceIndex == 0 ? Space.Self : Space.World);
-                instantiatedObject.transform.localScale += _incrementalTotalScaleIndex == 0 ? _ScaleTransformation * i : (_ScaleTransformation / _oneDimensionCount) * i;
+                instantiatedObject.transform.Translate(
+                    _incrementalTotalMoveIndex == 0
+                        ? rowOffset + _moveTransformation * i
+                        : rowOffset + _moveTransformation / _oneDimensionCount * i,
+                    _spaceIndex == 0 ? Space.Self : Space.World);
+                instantiatedObject.transform.localScale += _incrementalTotalScaleIndex == 0
+                    ? _ScaleTransformation * i
+                    : _ScaleTransformation / _oneDimensionCount * i;
 
                 if (isPreview)
-                {
                     ObjectPreviewProperties(instantiatedObject);
-
-                }
                 else
-                {
                     Undo.RegisterCreatedObjectUndo(instantiatedObject, "Create Array");
-                }
             }
         }
 
         private void OneDeeArray(bool isPreview)
         {
-
-            if (_isInstanciated)
-            {
-                RemovePreviewArray();
-            }
+            if (_isInstanciated) RemovePreviewArray();
             GenerateRow(OneDimensionCount, Vector3.zero, isPreview, true);
 
             _isInstanciated = true;
@@ -367,15 +353,10 @@ namespace ToolExtensions
 
         private void TwoDeeArray(bool isPreview)
         {
-            if (_isInstanciated)
-            {
-                RemovePreviewArray();
-            }
+            if (_isInstanciated) RemovePreviewArray();
 
-            for (int i = 0; i < TwoDimensionCount.y; i++)
-            {
+            for (var i = 0; i < TwoDimensionCount.y; i++)
                 GenerateRow(TwoDimensionCount.x, _incrementalRowOffset2D * i, isPreview, i == 0 ? true : false);
-            }
 
 
             _isInstanciated = true;
@@ -384,18 +365,14 @@ namespace ToolExtensions
 
         private void ThreeDeeArray(bool isPreview)
         {
-            if (_isInstanciated)
-            {
-                RemovePreviewArray();
-            }
+            if (_isInstanciated) RemovePreviewArray();
 
-            for (int i = 0; i < ThreeDimensionCount.z; i++)
+            for (var i = 0; i < ThreeDimensionCount.z; i++)
+            for (var j = 0; j < ThreeDimensionCount.y; j++)
             {
-                for (int j = 0; j < ThreeDimensionCount.y; j++)
-                {
-                    Vector3 newOffset = new Vector3(_incrementalRowOffset3D.x, _incrementalRowOffset3D.y * j, _incrementalRowOffset3D.z * i);
-                    GenerateRow(ThreeDimensionCount.x, newOffset, isPreview, i == 0 && j == 0 ? true : false);
-                }
+                var newOffset = new Vector3(_incrementalRowOffset3D.x, _incrementalRowOffset3D.y * j,
+                    _incrementalRowOffset3D.z * i);
+                GenerateRow(ThreeDimensionCount.x, newOffset, isPreview, i == 0 && j == 0 ? true : false);
             }
 
 

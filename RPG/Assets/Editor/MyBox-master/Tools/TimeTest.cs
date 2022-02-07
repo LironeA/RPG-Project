@@ -45,8 +45,8 @@ namespace MyBox
                 _tests[_lastStaticTest] = new TimeTestData(title, useMilliseconds);
             }
         }
-        
-        
+
+
         public static void Pause()
         {
             if (!_tests.ContainsKey(_lastStaticTest))
@@ -68,7 +68,7 @@ namespace MyBox
 
             _tests[title].Timer.Stop();
         }
-        
+
 
         public static void End()
         {

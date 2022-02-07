@@ -5,32 +5,32 @@ using UnityEngine.SceneManagement;
 
 namespace MyBox.Internal
 {
-	[InitializeOnLoad]
-	public class AutoSaveFeature
-	{
-		public static bool IsEnabled = false;
+    [InitializeOnLoad]
+    public class AutoSaveFeature
+    {
+        public static bool IsEnabled = false;
 
 
-		static AutoSaveFeature()
-		{
-			EditorApplication.playModeStateChanged += AutoSaveWhenPlaymodeStarts;
-		}
+        static AutoSaveFeature()
+        {
+            EditorApplication.playModeStateChanged += AutoSaveWhenPlaymodeStarts;
+        }
 
-		private static void AutoSaveWhenPlaymodeStarts(PlayModeStateChange obj)
-		{
-			if (!IsEnabled) return;
+        private static void AutoSaveWhenPlaymodeStarts(PlayModeStateChange obj)
+        {
+            if (!IsEnabled) return;
 
-			if (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
-			{
-				for (var i = 0; i < SceneManager.sceneCount; i++)
-				{
-					var scene = SceneManager.GetSceneAt(i);
-					if (scene.isDirty) EditorSceneManager.SaveScene(scene);
-				}
+            if (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
+            {
+                for (var i = 0; i < SceneManager.sceneCount; i++)
+                {
+                    var scene = SceneManager.GetSceneAt(i);
+                    if (scene.isDirty) EditorSceneManager.SaveScene(scene);
+                }
 
-				AssetDatabase.SaveAssets();
-			}
-		}
-	}
+                AssetDatabase.SaveAssets();
+            }
+        }
+    }
 }
 #endif

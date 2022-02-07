@@ -18,34 +18,36 @@ namespace ToolExtensions
         /// </summary>
         public static readonly GUIStyle miniLabelButton;
 
-        static readonly Color splitterDark;
-        static readonly Color splitterLight;
+        private static readonly Color splitterDark;
+        private static readonly Color splitterLight;
 
         /// <summary>
         /// Color of UI splitters.
         /// </summary>
-        public static Color splitter { get { return EditorGUIUtility.isProSkin ? splitterDark : splitterLight; } }
+        public static Color splitter => EditorGUIUtility.isProSkin ? splitterDark : splitterLight;
 
-        static readonly Texture2D paneOptionsIconDark;
-        static readonly Texture2D paneOptionsIconLight;
+        private static readonly Texture2D paneOptionsIconDark;
+        private static readonly Texture2D paneOptionsIconLight;
 
         /// <summary>
         /// Option icon used in effect headers.
         /// </summary>
-        public static Texture2D paneOptionsIcon { get { return EditorGUIUtility.isProSkin ? paneOptionsIconDark : paneOptionsIconLight; } }
+        public static Texture2D paneOptionsIcon =>
+            EditorGUIUtility.isProSkin ? paneOptionsIconDark : paneOptionsIconLight;
 
         /// <summary>
         /// Style for effect header labels.
         /// </summary>
         public static readonly GUIStyle headerLabel;
 
-        static readonly Color headerBackgroundDark;
-        static readonly Color headerBackgroundLight;
+        private static readonly Color headerBackgroundDark;
+        private static readonly Color headerBackgroundLight;
 
         /// <summary>
         /// Color of effect header backgrounds.
         /// </summary>
-        public static Color headerBackground { get { return EditorGUIUtility.isProSkin ? headerBackgroundDark : headerBackgroundLight; } }
+        public static Color headerBackground =>
+            EditorGUIUtility.isProSkin ? headerBackgroundDark : headerBackgroundLight;
 
         /// <summary>
         /// Style for the trackball labels.
@@ -94,8 +96,8 @@ namespace ToolExtensions
             headerBackgroundDark = new Color(0.1f, 0.1f, 0.1f, 0.2f);
             headerBackgroundLight = new Color(1f, 1f, 1f, 0.2f);
 
-            paneOptionsIconDark = (Texture2D)EditorGUIUtility.Load("Builtin Skins/DarkSkin/Images/pane options.png");
-            paneOptionsIconLight = (Texture2D)EditorGUIUtility.Load("Builtin Skins/LightSkin/Images/pane options.png");
+            paneOptionsIconDark = (Texture2D) EditorGUIUtility.Load("Builtin Skins/DarkSkin/Images/pane options.png");
+            paneOptionsIconLight = (Texture2D) EditorGUIUtility.Load("Builtin Skins/LightSkin/Images/pane options.png");
 
             headerLabel = new GUIStyle(EditorStyles.miniLabel);
 

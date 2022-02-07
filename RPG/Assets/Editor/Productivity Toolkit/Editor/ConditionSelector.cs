@@ -1,4 +1,5 @@
 ﻿// Anthony Ackermans
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using UnityEngine;
 
 namespace ToolExtensions
 {
-
     /// <summary>
     // Select objects in the scene based on a set of conditions
     /// </summary>
@@ -26,7 +26,7 @@ namespace ToolExtensions
         [MenuItem("Tools/Productivity Toolkit/Selection Filter")]
         public static void ShowWindow()
         {
-            ConditionSelector window = (ConditionSelector)GetWindow(typeof(ConditionSelector));
+            var window = (ConditionSelector) GetWindow(typeof(ConditionSelector));
             window.titleContent = new GUIContent("Selection Filter");
             window.Show();
         }
@@ -36,71 +36,53 @@ namespace ToolExtensions
             SelectedGameObjects = new List<GameObject>();
             _conditions = new List<ICondition>();
 
-            FoldoutHeaderToggle _foldoutTriangleCount = new FoldoutHeaderToggle("Triangle count", new TriangleCount());
-            FoldoutHeaderToggle _foldoutTag = new FoldoutHeaderToggle("Contains tag", new HasTag());
-            FoldoutHeaderToggle _foldoutLayer = new FoldoutHeaderToggle("Contains layer", new HasLayer());
-            FoldoutHeaderToggle _foldoutStaticActive = new FoldoutHeaderToggle("Gameobject property", new StaticOrActive());
-            FoldoutHeaderToggle _foldoutContainsMaterial = new FoldoutHeaderToggle("Contains material", new ContainsMaterial());
+            var _foldoutTriangleCount = new FoldoutHeaderToggle("Triangle count", new TriangleCount());
+            var _foldoutTag = new FoldoutHeaderToggle("Contains tag", new HasTag());
+            var _foldoutLayer = new FoldoutHeaderToggle("Contains layer", new HasLayer());
+            var _foldoutStaticActive = new FoldoutHeaderToggle("Gameobject property", new StaticOrActive());
+            var _foldoutContainsMaterial = new FoldoutHeaderToggle("Contains material", new ContainsMaterial());
 
             allFoldoutHeadertoggles.Add(_foldoutTriangleCount);
             allFoldoutHeadertoggles.Add(_foldoutTag);
             allFoldoutHeadertoggles.Add(_foldoutLayer);
             allFoldoutHeadertoggles.Add(_foldoutContainsMaterial);
             allFoldoutHeadertoggles.Add(_foldoutStaticActive);
-
         }
 
         private void OnGUI()
         {
-            foreach (var foldout in allFoldoutHeadertoggles)
-            {
-                foldout.ShowHeader();
-            }
+            foreach (var foldout in allFoldoutHeadertoggles) foldout.ShowHeader();
 
             GUILayout.FlexibleSpace();
-            
+
             UtilitiesToolExtensions.DrawSplitter();
 
             EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
             _inverse = EditorGUILayout.Toggle("Invert selection", _inverse);
             _isolate = EditorGUILayout.Toggle("Isolate selection", _isolate);
             EditorGUILayout.LabelField(_logBox, EditorStyles.helpBox, GUILayout.Height(30));
-            if (GUILayout.Button("Reset Values"))
-            {
-                ResetValues();
-            }
-            if (GUILayout.Button("Select objects"))
-            {
-                SelectObjects();
-            }
+            if (GUILayout.Button("Reset Values")) ResetValues();
+            if (GUILayout.Button("Select objects")) SelectObjects();
         }
 
         private void SelectObjects()
         {
-            List<FoldoutHeaderToggle> activeFoldouts = new List<FoldoutHeaderToggle>();
+            var activeFoldouts = new List<FoldoutHeaderToggle>();
             foreach (var foldout in allFoldoutHeadertoggles)
-            {
                 if (foldout.groupEnabled)
-                {
                     activeFoldouts.Add(foldout);
-                }
-            }
 
-            if (activeFoldouts.Count == 0)
-            {
-                return;
-            }
+            if (activeFoldouts.Count == 0) return;
 
             var filteredGameObjectsPerCondition = activeFoldouts[0].theCondition.Select();
 
-            for (int i = 1; i < activeFoldouts.Count; i++)
-            {
-                filteredGameObjectsPerCondition = filteredGameObjectsPerCondition.Intersect(activeFoldouts[i].theCondition.Select()).ToList();
-            }
+            for (var i = 1; i < activeFoldouts.Count; i++)
+                filteredGameObjectsPerCondition = filteredGameObjectsPerCondition
+                    .Intersect(activeFoldouts[i].theCondition.Select()).ToList();
 
             if (_inverse)
             {
-                List<GameObject> tempList = new List<GameObject>();
+                var tempList = new List<GameObject>();
                 tempList = InvertSelection(filteredGameObjectsPerCondition);
                 filteredGameObjectsPerCondition.Clear();
                 filteredGameObjectsPerCondition = tempList;
@@ -113,18 +95,16 @@ namespace ToolExtensions
             }
 
             Selection.objects = filteredGameObjectsPerCondition.ToArray();
-            _logBox = $"Selected {filteredGameObjectsPerCondition.Count} object" + (filteredGameObjectsPerCondition.Count > 1 ? "s" : "");
-
+            _logBox = $"Selected {filteredGameObjectsPerCondition.Count} object" +
+                      (filteredGameObjectsPerCondition.Count > 1 ? "s" : "");
         }
 
         private List<GameObject> InvertSelection(List<GameObject> selectedGameObjects)
         {
-            List<GameObject> invertedSelection = new List<GameObject>();
-            foreach (GameObject obj in UtilitiesToolExtensions.GetAllGameObjects())
-            {
+            var invertedSelection = new List<GameObject>();
+            foreach (var obj in UtilitiesToolExtensions.GetAllGameObjects())
                 if (!selectedGameObjects.Contains(obj))
                     invertedSelection.Add(obj);
-            }
             return invertedSelection;
         }
 

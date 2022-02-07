@@ -4,23 +4,26 @@ using UnityEngine;
 
 namespace MyBox
 {
-	[Serializable]
-	public class PlayerPrefsInt : PlayerPrefsType
-	{
-		public int Value
-		{
-			get => PlayerPrefs.GetInt(Key, DefaultValue);
-			set => PlayerPrefs.SetInt(Key, value);
-		}
+    [Serializable]
+    public class PlayerPrefsInt : PlayerPrefsType
+    {
+        public int Value
+        {
+            get => PlayerPrefs.GetInt(Key, DefaultValue);
+            set => PlayerPrefs.SetInt(Key, value);
+        }
 
-		public int DefaultValue;
-		
-		public static PlayerPrefsInt WithKey(string key, int defaultValue = 0) => new PlayerPrefsInt(key, defaultValue);
+        public int DefaultValue;
 
-		public PlayerPrefsInt(string key, int defaultValue = 0)
-		{
-			Key = key;
-			DefaultValue = defaultValue;
-		}
-	}
+        public static PlayerPrefsInt WithKey(string key, int defaultValue = 0)
+        {
+            return new PlayerPrefsInt(key, defaultValue);
+        }
+
+        public PlayerPrefsInt(string key, int defaultValue = 0)
+        {
+            Key = key;
+            DefaultValue = defaultValue;
+        }
+    }
 }
