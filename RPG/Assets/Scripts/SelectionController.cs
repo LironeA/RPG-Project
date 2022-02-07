@@ -1,53 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using MyBox;
 using DG.Tweening;
 
 public class SelectionController : MonoBehaviour
 {
+    [Header("MovementOfTileSettings")]
     [SerializeField] [PositiveValueOnly] private float duration;
     [SerializeField] private float hightOfSelectionTile;
 
     [HideInInspector] public Transform selected;
-    private Transform hitTransform;
+    private Transform _hitTransform;
+    private Transform _cameraTransform;
 
-    // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
+        if (Camera.main != null) _cameraTransform = Camera.main.transform;
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100.0f,
-                1 << LayerMask.NameToLayer("Tiles"))) hitTransform = hit.transform;
+        if (Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out var hit, 100.0f,
+                1 << LayerMask.NameToLayer("Tiles"))) _hitTransform = hit.transform;
     }
 
 
     public void SwitchSelection()
     {
-        if (selected == hitTransform)
+        if (selected == _hitTransform)
         {
-            DeSelect(hitTransform);
+            DeSelect(_hitTransform);
         }
         else
         {
             DeSelect(selected);
-            Select(hitTransform);
+            Select(_hitTransform);
         }
     }
 
-    private void Select(Transform _transform)
+    private void Select(Transform targetTransform)
     {
-        _transform.DOMoveY(hightOfSelectionTile, duration);
-        selected = _transform;
+        targetTransform.DOMoveY(hightOfSelectionTile, duration);
+        selected = targetTransform;
     }
 
-    private void DeSelect(Transform _transform)
+    private void DeSelect(Transform targetTransform)
     {
-        _transform.DOMoveY(0, duration);
+        targetTransform.DOMoveY(0, duration);
         selected = null;
     }
 

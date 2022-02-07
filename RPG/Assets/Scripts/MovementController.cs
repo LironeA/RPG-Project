@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 public class MovementController : MonoBehaviour
 {
-    public void MoveToTile(Transform _tile)
+    public void MoveToTile(Transform tile)
     {
-        var targetPosition = new Vector3(_tile.position.x, 1, _tile.position.z);
+        var position = tile.position;
+        var targetPosition = new Vector3(position.x, 1, position.z);
         transform.DOJump(targetPosition, 0.5f, 1, 2);
     }
 }
